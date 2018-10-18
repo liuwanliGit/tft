@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="ajax-pushlet-client.js"></script>
+    <title>pushlet</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    <!--
+    //pushlet
+    if(PL.sessionId == null){
+        PL.userId = 'piero';
+        PL._init();
+        PL.joinListen('/system/pushlet');//事件标识 在数据源中引用
+        function onData(event){
+            console.log("sessionID==" + PL.sessionId + "====" + event.get('msg'));
+        }
+    }
+    //-->
+</script>
+
+</body>
+</html>

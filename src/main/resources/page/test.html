@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后端接口测试</title>
+    <script src="./jquery-1.8.0.min.js"></script>
+</head>
+<body>
+<div>
+<center>
+<h1>
+    后台数据测试
+</h1>
+</center>
+<div id="form1">
+    <table align="center">
+        <tr>
+            <td>URL地址</td>
+            <td><input id="url" name="url" style="width: 800px;" required="true" /></td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    queryCondition
+                </label>
+            </td>
+            <td>
+                <input id="queryCondition" style="width: 800px;"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    objectId
+                </label>
+            </td>
+            <td>
+                <input id="objectId" style="width: 800px; height: 80px;"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    object
+                </label>
+            </td>
+            <td>
+                <input id="object" style="width: 800px; height: 80px;"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    objects
+                </label>
+            </td>
+            <td>
+                <input id="objects" style="width: 800px; height: 80px;"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    pageInfo
+                </label>
+            </td>
+            <td>
+                <input id="pageInfo" style="width: 800px;" name="pageInfo"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    Sort
+                </label>
+            </td>
+            <td>
+                <input id="sort" style="width: 800px;" name="sort"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    otherDatas
+                </label>
+            </td>
+            <td>
+                <input id="otherDatas" style="width: 800px;" name="otherDatas"
+                       class="mini-textarea"
+                       emptyText="{&quot;field1&quot;:value1,&quot;field2&quot;:value2}" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="transmit" name="transmit" class="mini-checkbox" checked="false"
+                     readOnly="false" text="传递未填属性"></div>
+            </td>
+            <td>
+                <label>
+                    选中时：object未填写数据时，将以&emsp;object:&quot&quot&emsp;形式传递到后台，后台接收到obejct=&quot&quot</br>
+                    未选中时：object未填写数据时，后台将接收不到object字段信息，即object=null
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <input value="submit" type="button" onclick=submitForm(); />
+                <input value="export" type="button" onclick=exportFrom(); />(export用于文件导出，导出条件以？的形式接在url中)
+            </td>
+        </tr>
+        <tr>
+            <td>返回数据</td>
+            <td><textarea id="returnDatas" style="width: 800px;height: 150px;"></textarea></td>
+        </tr>
+    </table>
+</body>
+<script type="text/javascript">
+    function submitForm() {
+        var url = $("#url").val();
+        if(url==undefined || url == ""){
+            alert("请输入请求URL");
+            return;
+        }
+        var queryCondition =$("#queryCondition").val();
+        var objectId = $("#objectId").val();
+        var object = $("#object").val();
+        var objects = $("#objects").val();
+        var pageInfo = $("#pageInfo").val();
+        var sort = $("#sort").val();
+        var otherDatas =$("#otherDatas").val();
+
+        $.ajax({
+            url:url,
+            data:{
+                queryCondition:queryCondition,
+                objectId:objectId,
+                object:object,
+                objects:objects,
+                pageInfo:pageInfo,
+                sort:sort,
+                otherDatas:otherDatas
+            },
+            type:"post",
+            cache:false,
+            success:function(text){
+                if(text){
+                    var returnDatas = $("#returnDatas");
+                    returnDatas.val(text);
+                }
+            }
+        });
+
+    }
+    function exportFrom(){
+        var url = mini.get("url").value;
+        if(url==undefined||url==""){
+            alert("请输入url")
+        }
+
+        var form = $("<form>");
+        form.attr("style","display:none");
+        form.attr("target","_self");
+        form.attr("method","post");
+        form.attr("action",url);
+
+        var queryCondition =mini.get("queryCondition").value;
+        var objectId = mini.get("objectId").value;
+        var object = mini.get("object").value;
+        var objects = mini.get("objects").value;
+        var pageInfo = mini.get("pageInfo").value;
+        var otherDatas = mini.get("otherDatas").value;otherDatas;
+        var queryConditionInput = $("<input id='queryCondition' name='queryCondition'>");
+        queryConditionInput.hide();
+        queryConditionInput.val(queryCondition);
+        var objectIdInput = $("<input id='objectId' name='objectId'>");
+        objectIdInput.hide();
+        objectIdInput.val(objectId);
+        $("body").append(form);
+        form.submit();
+    }
+</script>
+</html>

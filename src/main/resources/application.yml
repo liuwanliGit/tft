@@ -1,0 +1,55 @@
+server:
+  port: 8888
+
+spring:
+ resources:
+ #设置静态资源路径，可以不用springBoot默认的/static，/public
+   static-locations: classpath:/page
+ datasource:
+   url: jdbc:mysql://localhost:3306/tft_dev
+   username: root
+   password: 123456
+   driver-class-name: com.mysql.jdbc.Driver
+ jpa:
+   hibernate:
+     naming:
+       physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+ redis:
+   host: localhost
+   port: 6379
+   password: 123456
+   timeout: 10s
+   lettuce:
+    pool:
+      min-idle: 0
+      max-idle: 8
+      max-active: 8
+      max-wait: -1ms
+
+
+ banner:
+   charset: utf-8
+   location: banner.txt
+ mail:
+  host: smtp.163.com
+  username: liuwanli_email@163.com
+  password: abcd1234
+  default-encoding: utf-8
+  protocol: smtp
+  fromName: 忆童年论坛
+
+debug: true
+logging:
+  pattern:
+#  %d{HH: mm:ss.SSS}——日志输出时间 %thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+#  %-5level——日志级别，并且使用5个字符靠左对齐 %logger{36}——日志输出者的名字  %n——平台的换行符 %msg——日志消息
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} [%15.15t] %-40.40logger{39} : %m%n'
+
+token:
+  expire:
+    seconds: 7200
+  jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)
+
+CorsMap:
+  allowedOrigins: '*'
+  url: '/api/**'
